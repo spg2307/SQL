@@ -1,0 +1,13 @@
+--Problem
+Order all countries by the year they first participated in the Olympics
+Order all countries by the year they first participated in the Olympics. 
+Output the National Olympics Committee (NOC) name along with the desired year. 
+Sort records by the year and the NOC in ascending order.
+
+From <https://platform.stratascratch.com/coding/10184-order-all-countries-by-the-year-they-first-participated-in-the-olympics?python=> 
+
+--Solution
+select min(year) maidenyear, noc
+from olympics_athletes_events
+group by noc
+order by maidenyear asc, noc asc
