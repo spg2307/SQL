@@ -1,0 +1,15 @@
+-- Problem
+European and Non-European Olympics
+Add a column to each row which will classify Olympics that athlete is competing in as 'European' or 'Non-European' based on the city it was hosted. 
+Output all details along with the corresponding city classification. 
+European cities are Athina, Berlin, London, Paris, and Lillehammer.
+
+From <https://platform.stratascratch.com/coding/10185-european-and-non-european-olympics?python=> 
+
+--Solution
+select *, 
+    case 
+        when city in ('Athina', 'Berlin', 'London', 'Paris', 'Lillehammer') then 'European'
+        else 'NonEuropean'
+    end as CityClassification
+from olympics_athletes_events
