@@ -1,0 +1,18 @@
+--Problem
+Find the total number of available beds per hosts' nationality
+
+Output the nationality along with the corresponding total number of available beds. 
+Sort records by the total available beds in descending order.
+
+From <https://platform.stratascratch.com/coding/10187-find-the-total-number-of-available-beds-per-hosts-nationality?python=> 
+
+
+--Solution
+ -- Output : Nationality | Total Available Beds
+
+
+ select ah.nationality, sum(ap.n_beds) total_beds
+ from airbnb_apartments ap
+ join airbnb_hosts ah on ap.host_id = ah.host_id
+ group by ah.nationality
+ order by total_beds desc
