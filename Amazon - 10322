@@ -1,0 +1,15 @@
+Finding User Purchases
+Write a query that'll identify returning active users. A returning active user is a user that has made a second purchase within 7 days of any other of their purchases. Output a list of user_ids of these returning active users.
+
+From <https://platform.stratascratch.com/coding/10322-finding-user-purchases?python=> 
+
+-- Calculate next purchase date for a user , use the LAG function to identify the next purchase date
+-- Subtract the Purchase Date - Created Date to calculate the difference of & days and identify the users.
+
+select distinct user_id from
+(
+select user_id, created_at, lead(created_at) over (partition by user_id order by created_at) as next_purchase_date
+from amazon_transactions) a
+where (next_purchase_date - created_at) <= 7
+
+
