@@ -1,0 +1,21 @@
+Revenue Over Time
+Find the 3-month rolling average of total revenue from purchases given a table with users, their purchase amount, and date purchased. Do not include returns which are represented by negative purchase values. Output the year-month (YYYY-MM) and 3-month rolling average of revenue, sorted from earliest month to latest month. A 3-month rolling average is defined by calculating the average total revenue from all user purchases for the current month and previous two months. The first two months will not be a true 3-month rolling average since we are not given data from last year. Assume each month has at least one purchase.
+
+From <https://platform.stratascratch.com/coding/10314-revenue-over-time?python=> 
+
+
+with cte as 
+(select to_char(created_at, 'YYYY-MM') as year, sum(purchase_amt) as amount from amazon_purchases
+where purchase_amt >= 0 
+group by to_char(created_at, 'YYYY-MM')
+order by to_char(created_at, 'YYYY-MM')
+) 
+SELECT year,
+      --(amount +
+        --COALESCE(NULLIF(LAG(amount) OVER (order by year), ''), amount) +
+        --COALESCE(NULLIF(LAG(amount, 2) OVER (order by year), ''), amount) / 3 AS moving_average
+        AVG(amount) OVER(ORDER BY year ROWS 
+BETWEEN 2 PRECEDING AND CURRENT ROW)
+FROM cte
+ORDER BY year
+
