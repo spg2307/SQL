@@ -1,0 +1,21 @@
+https://platform.stratascratch.com/coding/9910-favorite-customer?python=
+
+Favorite Customer
+
+Find "favorite" customers based on the order count and the total cost of orders.
+A customer is considered as a favorite if he or she has placed more than 3 orders and with the total cost of orders more than $100.
+
+Output the customer's first name, city, number of orders, and total cost of orders.
+
+
+
+with cte as (
+select cust_id, count(*) as order_count, sum(total_order_cost) as cumu_cost 
+from orders
+group by cust_id
+) 
+select t2.first_name, t2.city, t1.order_count, t1.cumu_cost 
+from cte t1
+join customers t2 on t1.cust_id = t2.id
+where order_count > 3 and cumu_cost > 100
+order by t2.first_name
