@@ -1,0 +1,26 @@
+https://platform.stratascratch.com/coding/10089-find-the-number-of-customers-without-an-order?python=
+
+Find the number of customers without an order.
+
+***************************
+Table - orders
+--------------
+id int
+cust_id int
+order_date datetime
+order_details varchar
+total_order_cost int
+
+customers
+----------
+id int
+first_name varchar
+last_name varchar
+city varchar
+address varchar
+phone_number varchar
+***************************
+
+select count(distinct id) as no_of_cust from customers
+where id not in (
+select cust_id from orders)
