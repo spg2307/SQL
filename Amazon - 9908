@@ -1,0 +1,38 @@
+https://platform.stratascratch.com/coding/9908-customer-orders-and-details?python=
+
+Customer Orders and Details
+Find the number of orders, the number of customers, and the total cost of orders for each city. Only include cities that have made at least 5 orders and count all customers in each city even if they did not place an order.
+
+Output each calculation along with the corresponding city name.
+
+
+************************
+customers
+----------
+id int
+first_name varchar
+last_name varchar
+city varchar
+address varchar
+phone_number varchar
+
+orders
+-------
+id int
+cust_id int
+order_date datetime
+order_details varchar
+total_order_cost int
+************************
+
+
+with cte as (
+select c.city, count(*) as order_count, sum(total_order_cost) as agg_cost
+from customers c
+join orders o on c.id = o.cust_id
+group by c.city )
+select t1.city, count(t2.id), avg(t1.order_count), avg(t1.agg_cost)
+from cte t1
+left join customers t2 on t1.city = t2.city
+where t1.order_count >= 5
+group by t1.city
