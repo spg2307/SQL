@@ -1,0 +1,19 @@
+https://platform.stratascratch.com/coding/2058-total-shipment-weight?python=
+
+Total Shipment Weight
+Calculate the total weight for each shipment and add it as a new column. Your output needs to have all the existing rows and columns in addition to the  new column that shows the total weight for each shipment. One shipment can have multiple rows.
+
+***************************
+Table: amazon_shipment
+---------------------------
+shipment_id int
+sub_id int
+weight int
+shipment_date datetime
+***************************
+
+select b.*, a.total_weight from
+(select shipment_id, sum(weight) as total_weight
+from amazon_shipment
+group by shipment_id) a 
+join amazon_shipment b on a.shipment_id = b.shipment_id
