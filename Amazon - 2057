@@ -1,0 +1,15 @@
+https://platform.stratascratch.com/coding/2057-weight-for-first-shipment?python=
+
+Weight For First Shipment
+Write a query to find the weight for each shipment's earliest shipment date. Output the shipment id along with the weight.
+
+with cte as (
+select shipment_id, min(shipment_date) as min_ship_date from amazon_shipment
+group by shipment_id
+)
+select a.shipment_id, sum(b.weight)
+from cte a
+join amazon_shipment b on a.shipment_id = b.shipment_id
+and a.min_ship_date = b.shipment_date
+group by a.shipment_id
+order by a.shipment_id
