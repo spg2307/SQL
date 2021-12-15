@@ -1,0 +1,37 @@
+https://platform.stratascratch.com/coding/9607-the-most-expensive-products-per-category?python=
+
+The Most Expensive Products Per Category
+Find the most expensive products on Amazon for each product category
+
+-----------------------
+innerwear_amazon_com
+
+product_name  varchar
+mrp varchar
+price varchar
+pdp_url varchar
+brand_name  varchar
+product_category  varchar
+retailer  varchar
+description varchar
+rating  float
+review_count  int
+style_attributes  varchar
+total_sizes varchar
+available_size  varchar
+color varchar
+-----------------------
+
+*** Most important thing is to look at the table structure and then convert the Price column to a decimal.
+*** I used a combination of TRIM and CAST function to convert it and then used the converted value with windows function (RANK).
+
+
+--SELECT 	LTRIM('enterprise', 'e');
+select * from (
+with cte as (
+select cast(ltrim(price, '$') as decimal) as newprice, product_name, product_category from innerwear_amazon_com
+order by cast(ltrim(price, '$') as decimal) desc
+)
+select product_category, product_name, newprice, rank() over (partition by product_category order by newprice desc) rnk
+from cte) a 
+where rnk = 1
