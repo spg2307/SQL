@@ -1,0 +1,23 @@
+https://platform.stratascratch.com/coding/2060-manager-of-the-largest-department?python=
+
+Manager of the Largest Department
+Given a list of a company's employees, find the name of the manager from the largest department. Output their first and last name.
+
+*** Count the no. of employees in each dept
+*** Rank the dept based on count
+*** Find the employees with Position as Manager
+*** Clarify if Manager and Interim Manager are similar
+
+select b.first_name, b.last_name
+from (
+with cte as (
+select department_id, count(*) cnt
+from az_employees
+group by department_id
+order by count(*) desc
+)
+select department_id, rank() over (order by cnt desc) rnk
+from cte 
+) a
+left join az_employees b on a.department_id = b.department_id 
+where a.rnk = 1 and b.position ILIKE '%manager%';
